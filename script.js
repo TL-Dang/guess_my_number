@@ -13,6 +13,7 @@ console.log(document.querySelector('.guess').value)
 //number variable is created outside the 'check' EventListener. For the project, we want the random number to only happen once when page is reloaded. Putting 'number' variable inside the 'check' function will cause the function produce a random number every time a touchpad 'click' is registered.
 let secretNum = Math.trunc(Math.random() * 20) + 1;
 let score = 20;
+let highScore = 0;
 
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(document.querySelector('.guess').value);
@@ -21,7 +22,7 @@ document.querySelector('.check').addEventListener('click', function () {
   //When a valid number is not the input
   if (!guess) {
     document.querySelector('.message').textContent =
-      '⛔️ Invalid Number, guess again!';
+      '⛔️ Invalid entry, guess again!';
 
     //Whan player wins
   } else if (guess === secretNum) {
@@ -31,6 +32,12 @@ document.querySelector('.check').addEventListener('click', function () {
     //Using DOM manipulation for inline styling
     document.querySelector('body').style.backgroundColor = '#60b347';
     document.querySelector('.number').style.width = '30rem';
+
+    //Retain high score on game reset
+    if (score > highScore) {
+      highScore = score;
+      document.querySelector('.highScore').textContent = highScore;
+    }
 
     //When guess is too high
   } else if (guess > secretNum) {
@@ -55,7 +62,7 @@ document.querySelector('.again').addEventListener('click', function () {
   score = 20;
   secretNum = Math.trunc(Math.random() * 20) + 1;
   document.querySelector('.message').textContent = 'Start guessing . . .';
-  document.querySelector('.score').textContent = 'Score';
+  document.querySelector('.score').textContent = '20';
   document.querySelector('.number').textContent = '?';
   document.querySelector('.guess').value = '';
   document.querySelector('body').style.backgroundColor = '#222';
